@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diccionario de Lengua de Señas Mexicana - Detalle de Alfabeto</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <!-- Encabezado con logo y navegación -->
+    <div class="logo">
+        <h1><a href="index.html">Enseñate</a></h1>
+    </div>
+    <nav>
+        <a href="index.html">Inicio</a>
+        <a href="learn-more.html">Conoce Más</a>
+        <a href="about-us.html">Sobre Nosotros</a>
+        <a href="alphabet.html">Alfabeto</a> <!-- Nuevo enlace al alfabeto -->
+    </nav>
+    </header>
+
+    <!-- Sección de detalles del alfabeto -->
+    <main>
+        <section class="alphabet-detail main-container">
+            <div class="sign-details">
+                <div class="sign-image-container">
+                    <img id="image" src="" alt="Letra en Lengua de Señas">
+                </div>
+                <div class="sign-info">
+                    <div class="sign-word-container">
+                        <h2 id="letter"></h2>
+                    </div>
+                    <div class="sign-description-container">
+                        <p id="description"></p>
+                    </div>
+                    <div class="sign-back-button">
+                        <button id="back-button">Regresar</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Pie de página -->
+    <footer>
+        <p>&copy; 2024 Enseñate</p>
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const letter = params.get('letra');
+            fetch(`/api/alphabet?letra=${letter}`)
+                .then(response => response.json())
+                .then(data => {
+                    const detail = data[0];
+                    document.getElementById('letter').textContent = detail.letra;
+                    document.getElementById('image').src = detail.imagen;
+                    document.getElementById('description').textContent = detail.descripcion;
+                })
+                .catch(error => {
+                    console.error('Error fetching alphabet detail:', error);
+                });
+
+            document.getElementById('back-button').addEventListener('click', () => {
+                window.history.back();
+            });
+        });
+    </script>
+</body>
+</html>
